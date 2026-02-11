@@ -1,13 +1,40 @@
 const fs = require("fs");
+const { Transform } = require("stream");
 
-//readable
-fs.createReadStream("test.txt").on("data", (chunk) => {
-  console.log("Chunk data:", chunk.toString());
+// #1 Readable stream
+const readable = fs.createReadStream("./sample/streams_input.txt");
+
+readable.on("data", (chunk) => {
+  console.log("Read-stream:", chunk.toString());
 });
-console.log("Reading stream chunks...");
 
-//writable
-// const writeStream = fs.createWriteStream("test.txt");
-// writeStream.write("Appending new data...");
-// writeStream.end();
-// console.log("Writing stream");
+// #2 Writable stream
+
+const writable = fs.createWriteStream("./sample/streams_output.txt");
+
+// writable.write("Hello");
+// writable.write(" World");
+// writable.write(" - through writable streams!!");
+// writable.end();
+
+// #3 Duplex stream
+// const duplexReadStream = fs.createReadStream("./sample/streams_input.txt");
+// const duplexWriteStream = fs.createWriteStream("./sample/streams_output.txt");
+
+// duplexReadStream.on("data", (chunk) => {
+//   duplexWriteStream.write("Duplex - " + chunk);
+// });
+
+// // #4 Transform
+
+const upperCase = new Transform({
+  transform(chunk, enc, cb) {
+    const modified = "Transformed data: " + chunk.toString().toUpperCase();
+    cb(null, modified);
+  },
+});
+
+const readStream = fs.createReadStream("./sample/streams_input.txt");
+const writeStream = fs.createWriteStream("./sample/streams_output.txt");
+
+readStream.pipe(upperCase).pipe(writeStream);
