@@ -1,5 +1,5 @@
 // client
-// run server first(05.2 -> 05.1)
+// run server first(05.2_net.js -> 05.1_net.js)
 
 const net = require("net");
 
