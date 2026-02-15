@@ -12,21 +12,20 @@ readable.on("data", (chunk) => {
 
 const writable = fs.createWriteStream("./streams_output.txt");
 
-// writable.write("Hello");
-// writable.write(" World");
-// writable.write(" - through writable streams!!");
-// writable.end();
+writable.write("Hello");
+writable.write(" World");
+writable.write(" - through writable streams!!");
+writable.end();
 
 // #3 Duplex stream
-// const duplexReadStream = fs.createReadStream("./streams_input.txt");
-// const duplexWriteStream = fs.createWriteStream("./streams_output.txt");
+const duplexReadStream = fs.createReadStream("./streams_input.txt");
+const duplexWriteStream = fs.createWriteStream("./streams_output.txt");
 
-// duplexReadStream.on("data", (chunk) => {
-//   duplexWriteStream.write("Duplex - " + chunk);
-// });
+duplexReadStream.on("data", (chunk) => {
+  duplexWriteStream.write("Duplex - " + chunk);
+});
 
-// // #4 Transform
-
+// #4 Transform
 const upperCase = new Transform({
   transform(chunk, enc, cb) {
     const modified = "Transformed data: " + chunk.toString().toUpperCase();
