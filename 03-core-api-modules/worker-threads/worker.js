@@ -14,7 +14,7 @@ const { parentPort } = require("worker_threads");
 parentPort.on("message", (limit) => {
   let sum = 0;
   for (let i = 0; i < limit; i++) {
-    sum += k;
+    sum += i;
   }
 
   parentPort.postMessage({ type: "result", data: sum });
